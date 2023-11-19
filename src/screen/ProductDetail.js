@@ -78,7 +78,7 @@ const ProductDetail = () => {
         </TouchableOpacity>
 
         <View style={styles.button}>
-          {isAddInCart == false ? (
+          {isAddInCart == true ? (
             <TouchableOpacity
               style={{
                 width: '100%',
@@ -93,28 +93,35 @@ const ProductDetail = () => {
             </TouchableOpacity>
           ) : (
             <View style={styles.quantityView}>
-              <TouchableOpacity
-                style={styles.quantityBtn}
-                onPress={() => {
-                  if (quantity > 1) {
-                    dispatch(reduceItemToCart(route.params.data));
-                    setQuantity(quantity - 1);
-                  } else {
-                    dispatch(removeItemToCart(route.params.data));
-                    setIsAddInCart(false);
-                  }
-                }}>
-                <Text style={[styles.quantitySign, {fontSize: 25}]}>-</Text>
-              </TouchableOpacity>
-              <Text>{quantity}</Text>
-              <TouchableOpacity
-                style={styles.quantityBtn}
-                onPress={() => {
-                  dispatch(addItemToCart(route.params.data));
-                  setQuantity(quantity + 1);
-                }}>
-                <Text style={[styles.quantitySign, {fontSize: 25}]}>+</Text>
-              </TouchableOpacity>
+              {quantity === 1 ? (
+                <TouchableOpacity
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                  onPress={() => {
+                    dispatch(addItemToCart(route.params.data));
+                    setQuantity(quantity + 1); // Increment quantity when adding to cart
+                  }}>
+                  <Text style={styles.title}>Add to Cart</Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                  onPress={() => {
+                    // dispatch(removeItemToCart(route.params.data));
+                    // setQuantity(quantity - 1); // Decrement quantity when removing from cart
+                  }}>
+                  <Text style={styles.title}>Added to Cart</Text>
+                </TouchableOpacity>
+              )}
             </View>
           )}
         </View>
@@ -146,14 +153,15 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 320,
     resizeMode: 'center',
+    marginTop: 5,
   },
   title: {
-    fontSize: 27,
+    fontSize: 21,
     color: 'black',
     margin: 10,
   },
   description: {
-    fontSize: 17,
+    fontSize: 16,
     margin: 10,
   },
   price: {
@@ -178,17 +186,13 @@ const styles = StyleSheet.create({
     height: 30,
   },
   button: {
-    width: '90%',
-    height: 70,
+    width: '70%',
+    height: 50,
     alignSelf: 'center',
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#d5d503',
-  },
-  title: {
-    fontSize: 22,
-    color: 'black',
   },
   quantityView: {
     flexDirection: 'row',

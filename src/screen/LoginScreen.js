@@ -6,22 +6,54 @@ import {
   Button,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import CustomButton from '../common/CustomButton';
 import {useNavigation} from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
 
 const LoginScreen = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigation = useNavigation();
+
+  const login = () => {
+    firestore()
+      .collection('Users')
+
+      .where('email', '==', email)
+      .get()
+      .then(querySnapshot => {
+        console.log(querySnapshot.docs[0]._data);
+      });
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.banner}>LOGIN</Text>
-      <TextInput style={styles.input} placeholder="Email" />
-      <TextInput style={styles.input} placeholder="Password" secureTextEntry />
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        onChangeText={text => {
+          setEmail(text);
+        }}
+        value={email}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        secureTextEntry
+        onChangeText={text => {
+          setPassword(text);
+        }}
+        value={password}
+      />
       <CustomButton
         style={styles.btn}
         title={'Login'}
         bg={'#d5d503'}
         color={'black'}
+        onClick={() => {
+          login();
+        }}
       />
       <TouchableOpacity
         style={styles.secondryBtn}

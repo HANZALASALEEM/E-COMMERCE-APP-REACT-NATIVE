@@ -65,15 +65,17 @@ const styles = StyleSheet.create({
   btn: {
     backgroundColor: '#d5d503',
     height: 50,
-    width: '90%',
+    width: '70%',
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'center',
     marginLeft: 15,
   },
   btnText: {
-    fontSize: 22,
+    fontSize: 20,
     color: 'black',
+    fontWeight: '700',
   },
   closeBtn: {
     width: 20,
@@ -82,6 +84,6 @@ const styles = StyleSheet.create({
   closeBtnView: {
     position: 'absolute',
     right: 15,
-    top: 10,
+    top: 15,
   },
 });

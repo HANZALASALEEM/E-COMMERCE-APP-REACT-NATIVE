@@ -21,8 +21,8 @@ export default CustomButton;
 
 const styles = StyleSheet.create({
   button: {
-    width: '90%',
-    height: 70,
+    width: '70%',
+    height: 50,
     alignSelf: 'center',
     borderRadius: 20,
     justifyContent: 'center',
