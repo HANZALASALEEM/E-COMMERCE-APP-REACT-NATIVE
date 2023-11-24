@@ -16,6 +16,7 @@ import {
   removeItemToCart,
   reduceItemToCart,
 } from '../redux/slice/CartSlice';
+import CheckOutLayout from '../common/CheckOutLayout';
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -25,10 +26,25 @@ const Cart = () => {
   const [cartItem, setCartItem] = useState([]);
   useEffect(() => {
     setCartItem(items.data);
+    console.log(cartItem);
   }, [items]);
+
+  const getTotal = () => {
+    let total = 0;
+    cartItem.map(item => {
+      total = total + item.quantity * item.price;
+    });
+    return total;
+  };
   return (
     <View style={styles.container}>
-      <Header title={'Cart Items'} />
+      <Header
+        title={'Cart Items'}
+        leftIcon={require('../images/left-arrow.png')}
+        onClickLeftIcon={() => {
+          navigation.goBack();
+        }}
+      />
       <FlatList
         data={cartItem}
         renderItem={({item, index}) => {
@@ -77,6 +93,18 @@ const Cart = () => {
           );
         }}
       />
+      {cartItem.length < 1 && (
+        <View style={styles.noItem}>
+          <Text>No items in Cart</Text>
+        </View>
+      )}
+      {cartItem.length > 0 && (
+        <CheckOutLayout
+          items={cartItem.length}
+          total={getTotal()}
+          data={cartItem}
+        />
+      )}
     </View>
   );
 };
@@ -130,5 +158,11 @@ const styles = StyleSheet.create({
   quantitySign: {
     top: -6,
     fontWeight: 'bold',
+  },
+  noItem: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    width: '100%',
   },
 });

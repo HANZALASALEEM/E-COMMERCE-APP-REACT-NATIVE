@@ -7,6 +7,7 @@ import ProductDetail from './screen/ProductDetail';
 import Cart from './screen/Cart';
 import LoginScreen from './screen/LoginScreen';
 import SignupScreen from './screen/SignupScreen';
+import CheckOut from './screen/CheckOut';
 const Stack = createStackNavigator();
 const AppNavigator = () => {
   return (
@@ -35,6 +36,11 @@ const AppNavigator = () => {
         <Stack.Screen
           name="Signup"
           component={SignupScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CheckOut"
+          component={CheckOut}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
