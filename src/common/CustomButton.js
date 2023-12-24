@@ -24,9 +24,10 @@ const styles = StyleSheet.create({
     width: '70%',
     height: 50,
     alignSelf: 'center',
-    borderRadius: 20,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    marginVertical: 10,
   },
   title: {
     fontSize: 22,

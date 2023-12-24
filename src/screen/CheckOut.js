@@ -16,6 +16,7 @@ import {
   removeItemToCart,
   reduceItemToCart,
 } from '../redux/slice/CartSlice';
+import CustomButton from '../common/CustomButton';
 
 const CheckOut = ({total}) => {
   const dispatch = useDispatch();
@@ -23,6 +24,8 @@ const CheckOut = ({total}) => {
   const route = useRoute();
   const items = useSelector(state => state.cart);
   const [cartItem, setCartItem] = useState([]);
+  const [selectMethod, setSelectMethod] = useState(0);
+  const [selectAddress, setSelectAddress] = useState('Please Edit Address');
   useEffect(() => {
     setCartItem(items.data);
   }, [items]);
@@ -69,39 +72,89 @@ const CheckOut = ({total}) => {
       <View style={styles.lineSperator} />
       <View style={styles.totalPriceContainer}>
         <Text style={styles.totalPriceText}>Total</Text>
-        <Text style={styles.totalPriceText}>${route.params.total}</Text>
+        <Text style={styles.totalPriceText}>
+          ${route.params.total.toFixed(2)}
+        </Text>
       </View>
-      <Text style={styles.selectPaymentMethodTitle}>Select Payment Method</Text>
+      <Text style={styles.heading}>Select Payment Method</Text>
       <View style={styles.paymentMethodOptionContainer}>
-        <TouchableOpacity style={styles.paymentMethodOption}>
+        <TouchableOpacity
+          style={styles.paymentMethodOption}
+          onPress={() => {
+            setSelectMethod(0);
+          }}>
           <Image
-            source={require('../images/radio-outline.png')}
+            source={
+              selectMethod == 0
+                ? require('../images/radio-fill.png')
+                : require('../images/radio-outline.png')
+            }
             style={styles.icon}
           />
           <Text style={styles.paymentMethodOptionText}>Cradit Card</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.paymentMethodOption}>
+        <TouchableOpacity
+          style={styles.paymentMethodOption}
+          onPress={() => {
+            setSelectMethod(1);
+          }}>
           <Image
-            source={require('../images/radio-outline.png')}
+            source={
+              selectMethod == 1
+                ? require('../images/radio-fill.png')
+                : require('../images/radio-outline.png')
+            }
             style={styles.icon}
           />
           <Text style={styles.paymentMethodOptionText}>Dabit Card</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.paymentMethodOption}>
+        <TouchableOpacity
+          style={styles.paymentMethodOption}
+          onPress={() => {
+            setSelectMethod(2);
+          }}>
           <Image
-            source={require('../images/radio-outline.png')}
+            source={
+              selectMethod == 2
+                ? require('../images/radio-fill.png')
+                : require('../images/radio-outline.png')
+            }
             style={styles.icon}
           />
           <Text style={styles.paymentMethodOptionText}>UPI</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.paymentMethodOption}>
+        <TouchableOpacity
+          style={styles.paymentMethodOption}
+          onPress={() => {
+            setSelectMethod(3);
+          }}>
           <Image
-            source={require('../images/radio-outline.png')}
+            source={
+              selectMethod == 3
+                ? require('../images/radio-fill.png')
+                : require('../images/radio-outline.png')
+            }
             style={styles.icon}
           />
           <Text style={styles.paymentMethodOptionText}>Cash on Delivery</Text>
         </TouchableOpacity>
       </View>
+      <View style={styles.addressHeadingAndEditContainer}>
+        <Text style={[styles.heading, {marginTop: 0, marginBottom: 0}]}>
+          Address
+        </Text>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Addresses');
+          }}>
+          <Image
+            source={require('../images/edit.png')}
+            style={[styles.icon, {marginRight: 20}]}
+          />
+        </TouchableOpacity>
+      </View>
+      <Text style={styles.address}>{selectAddress}</Text>
+      <CustomButton bg={'green'} title={'Pay & Order'} color={'white'} />
     </View>
   );
 };
@@ -151,6 +204,7 @@ const styles = StyleSheet.create({
     width: '95%',
     backgroundColor: 'black',
     alignSelf: 'center',
+    marginBottom: 5,
   },
   totalPriceContainer: {
     flexDirection: 'row',
@@ -163,12 +217,13 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '800',
   },
-  selectPaymentMethodTitle: {
-    fontSize: 20,
+  heading: {
+    fontSize: 22,
     color: 'black',
     marginHorizontal: 20,
-    marginVertical: 30,
+    marginTop: 30,
     fontWeight: '700',
+    marginBottom: 10,
   },
   paymentMethodOptionContainer: {
     marginHorizontal: 20,
@@ -178,7 +233,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 40,
     width: '100%',
-    backgroundColor: 'red',
     alignSelf: 'center',
   },
   icon: {
@@ -188,5 +242,16 @@ const styles = StyleSheet.create({
   paymentMethodOptionText: {
     fontSize: 16,
     marginHorizontal: 15,
+  },
+  addressHeadingAndEditContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginVertical: 10,
+  },
+  address: {
+    width: '90%',
+    alignSelf: 'center',
+    fontSize: 16,
   },
 });
